@@ -295,3 +295,22 @@ function woocommerce_custom_address_format( $formats ) {
     $formats[ 'HU' ]  = "{last_name} {first_name}\n{company}\n{city}\n{postcode}\n{address_1}\n{country}";
     return $formats;
 }
+
+
+add_action( 'woocommerce_before_template_part', 'iconic_enable_hide_out_of_stock_items', 10, 4 );
+add_action( 'woocommerce_after_template_part', 'iconic_disable_hide_out_of_stock_items', 10, 4 );
+function iconic_enable_hide_out_of_stock_items( $template_name, $template_path, $located, $args ) {
+    if( $template_name !== "single-product/related.php" ) {
+        return;
+    }
+ 
+    add_filter( 'pre_option_woocommerce_hide_out_of_stock_items', function( $option ) { return "yes"; }, 10, 1 );
+}
+function iconic_disable_hide_out_of_stock_items( $template_name, $template_path, $located, $args ) {
+    if( $template_name !== "single-product/related.php" ) {
+        return;
+    }
+ 
+    add_filter( 'pre_option_woocommerce_hide_out_of_stock_items', function( $option ) { return "no"; }, 10, 1 );
+}
+ 
